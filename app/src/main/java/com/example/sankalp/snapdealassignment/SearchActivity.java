@@ -92,34 +92,40 @@ public class SearchActivity extends ActionBarActivity {
 
             try {
 
-                status = json.getString(TAG_STATUS);
-                Log.v("status",status);
+                if(json!=null) {
+                    status = json.getString(TAG_STATUS);
+                    Log.v("status", status);
 
-                if (status.equals("OK")) {
+                    if (status.equals("OK")) {
 
 
-                    results = json.getJSONArray(TAG_RESULTS);
+                        results = json.getJSONArray(TAG_RESULTS);
 
-                    for (int i = 0; i < results.length(); i++) {
-                        HashMap<String, String> map = new HashMap<String, String>();
-                        Log.v("results ", "results= " + results);
-                        JSONObject c = results.getJSONObject(i);
-                        // Storing  JSON item in a Variable
-                        String name = c.getString(TAG_NAME);
-                        map.put(TAG_NAME, name);
-                        photos = c.getJSONArray(TAG_PHOTOS);
-                        JSONObject d = photos.getJSONObject(0);
-                        String photoReference = d.getString(TAG_PHOTO_REFERENCE);
-                        //    photoReference="http://www.androidbegin.com/tutorial/flag/china.png";
-                        photoReference = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" + photoReference + "&key=AIzaSyC2OSVNnbxBtfUSAqdSxh2T4QKZdZ4ESS0";
-                        map.put(TAG_PHOTO_REFERENCE, photoReference);
-                        //Set JSON Data in TextView
-                        Log.v("result", "name= " + name + " reference= " + photoReference);
-                        arrayList.add(map);
+                        for (int i = 0; i < results.length(); i++) {
+                            HashMap<String, String> map = new HashMap<String, String>();
+                            Log.v("results ", "results= " + results);
+                            JSONObject c = results.getJSONObject(i);
+                            // Storing  JSON item in a Variable
+                            String name = c.getString(TAG_NAME);
+                            map.put(TAG_NAME, name);
+                            photos = c.getJSONArray(TAG_PHOTOS);
+                            JSONObject d = photos.getJSONObject(0);
+                            String photoReference = d.getString(TAG_PHOTO_REFERENCE);
+                            //    photoReference="http://www.androidbegin.com/tutorial/flag/china.png";
+                            photoReference = "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" + photoReference + "&key=AIzaSyC2OSVNnbxBtfUSAqdSxh2T4QKZdZ4ESS0";
+                            map.put(TAG_PHOTO_REFERENCE, photoReference);
+                            //Set JSON Data in TextView
+                            Log.v("result", "name= " + name + " reference= " + photoReference);
+                            arrayList.add(map);
+                        }
+
+                    } else {
+                        Log.v("status", status);
+                        finish();
                     }
-
-                } else {
-                    Log.v("status",status);
+                }
+                else
+                {
                     finish();
                 }
                     // Getting JSON Array
